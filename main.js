@@ -2,29 +2,30 @@
     MAIN FILE
                 */
 
-//  IMPORTS
-import java.util.HashSet;
-import java.util.Set;
-import java.util.ArrayList;
-import processing.sound.*;
 
 //  VARIABLES
 const bgColor = color(0);
-Set<Character> keysPressed = new HashSet<>(); //tracks movement
-Set<Integer> keysPressedCode = new HashSet<>();
-Player p = new Player(keysPressed, keysPressedCode);
-ArrayList<Body> bodies = new ArrayList<>(); //the bodies that appear on-screen
+let keysPressed = new Set(); // tracks movement
+let keysPressedCode = new Set();
+let bodies = []; // the bodies that appear on-screen
+let p = new Player(keysPressed, keysPressedCode);
 let flashTimer = 0;
 let spawnRate = 100;
 let hundred = 100; //counts hundreds in points
 let stakes = 300;
 let maxSpeed = 2;
-SoundFile bgMusic;
-SoundFile ding; //sound when u collect a star :D
-SoundFile dong; //sound when u hit an asteroid :(
-SoundFile endMusic;
+let bgMusic;
+let ding; //sound when u collect a star :D
+let dong; //sound when u hit an asteroid :(
+let endMusic;
 
-
+//  PRELOAD (for music)
+function preload() {
+  bgMusic = loadSound('assets/bgMusic.mp3');
+  ding = loadSound('assets/ding.mp3');
+  dong = loadSound('assets/dong.mp3');
+  endMusic = loadSound('assets/endMusic.mp3');
+}
 
 //  SETUP
 function setup() {
@@ -58,9 +59,9 @@ function spawnBody() {
   let y = random(height);
   let r = 100; //radius of asteroids
   let chance = 0.3; //starting chance of asteroids to spawn
-  
+
   // after a certain amt points, the stakes increase
-  if (p.getPoints() >= hundred*stakes) {
+  if (p.getPoints() >= hundred * stakes) {
     chance *= 1.5;
     hundred += 100;
     r += 20; //asteroids will get bigger
@@ -70,11 +71,11 @@ function spawnBody() {
     maxSpeed *= 1.3;
     stakes *= 1.2;
   }
-  
-  if (random((let)Math.ceil(chance)) < chance) {
-    bodies.add(new Asteroid(x, y, maxSpeed, r));
+
+  if (random(1) < chance) {
+    bodies.push(new Asteroid(x, y, maxSpeed, r));
   } else {
-    bodies.add(new Star(x, y, maxSpeed));
+    bodies.push(new Star(x, y, maxSpeed));
   }
 }
 
@@ -110,7 +111,7 @@ function draw() {
     fill(255);
     textSize(40);
     textAlign(CENTER, CENTER);
-    text("Looks like your journey has ended :(", width/2, height/2);
+    text("Looks like your journey has ended :<", width/2, height/2);
     textSize(20);
     text("Score: " + p.getPoints(), width/2, height/2 + 60);
     bgMusic.pause();
@@ -144,7 +145,7 @@ function draw() {
   
   // SPAWNING BODIES
   for (let i = bodies.size() - 1; i >= 0; i--) {
-    Body b = bodies.get(i);
+    let b = bodies.get(i);
     
     // bodies disappear after a few seconds
     if (b.isExpired()) {
