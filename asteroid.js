@@ -13,9 +13,9 @@ class Asteroid extends Body {
 
     interact(p) {
         if (this.touch(p) && (!p.isInvincible())) {
-        p.setPoints(int(this.points));
-        p.pause(15);
-        return true;
+            p.setPoints(int(this.points));
+            p.pause(15);
+            return true;
         }
         return false;
     }

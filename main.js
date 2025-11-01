@@ -4,11 +4,11 @@
 
 
 //  VARIABLES
-const bgColor = color(0);
+let bgColor;
 let keysPressed = new Set(); // tracks movement
 let keysPressedCode = new Set();
 let bodies = []; // the bodies that appear on-screen
-let p = new Player(keysPressed, keysPressedCode);
+let p;
 let flashTimer = 0;
 let spawnRate = 100;
 let hundred = 100; //counts hundreds in points
@@ -21,21 +21,19 @@ let endMusic;
 
 //  PRELOAD (for music)
 function preload() {
-  bgMusic = loadSound('assets/bgMusic.mp3');
-  ding = loadSound('assets/ding.mp3');
-  dong = loadSound('assets/dong.mp3');
-  endMusic = loadSound('assets/endMusic.mp3');
+  bgMusic = loadSound('assets/saturnSong.mp3');
+  ding = loadSound('assets/dingSound.mp3');
+  dong = loadSound('assets/damageSound.wav');
+  endMusic = loadSound('assets/sadSong.wav');
 }
 
 //  SETUP
 function setup() {
-  size(900, 600);
-  bgMusic = new SoundFile(this, "saturnSong.mp3");
+  createCanvas(windowWidth, 600);
+  bgColor = color(0);
   bgMusic.play();
   bgMusic.loop();
-  ding = new SoundFile(this, "dingSound.mp3");
-  dong = new SoundFile(this, "damageSound.wav");
-  endMusic = new SoundFile(this, "sadSong.wav");
+  p = new Player(keysPressed, keysPressedCode);
 }
 
 
@@ -47,8 +45,17 @@ function keyPressed() {
 }
 
 function keyReleased() {
-  keysPressed.remove(key);
-  keysPressedCode.remove(keyCode);
+  keysPressed.delete(key);
+  keysPressedCode.delete(keyCode);
+}
+
+
+//  AUDIO
+
+function mousePressed() {
+  if (getAudioContext().state !== 'running') {
+    getAudioContext().resume();
+  }
 }
 
 
@@ -129,7 +136,7 @@ function draw() {
   textSize(20);
   text("Move using WASD or Arrow keys!\n\nFly through space to capture\ncolorful stars to gain points\nand special effects!\n\nBut be careful of the grey asteroids!", width/4, height/4);
   fill(p.getColor());
-  text("effect: " + p.getEffect(), 740, 580);
+  text("effect: " + p.getEffect(), width-200, 580);
 
   
   //  HEART LIVES
@@ -144,19 +151,17 @@ function draw() {
   p.timeEffect();
   
   // SPAWNING BODIES
-  for (let i = bodies.size() - 1; i >= 0; i--) {
-    let b = bodies.get(i);
-    
-    // bodies disappear after a few seconds
+  for (let i = bodies.length - 1; i >= 0; i--) {
+    let b = bodies[i];
+
     if (b.isExpired()) {
-      bodies.remove(i);
+      bodies.splice(i, 1);
       continue;
     }
-    
+
     b.updatePosition();
     b.display();
-  
-    // touching the body will remove it
+
     if (b.interact(p)) {
       if (b instanceof Star) {
         p.absorbColor(b.getColor());
@@ -164,15 +169,14 @@ function draw() {
       } else {
         dong.play();
       }
-      
-      // gets rid of body
-      bodies.remove(i);
+
+      bodies.splice(i, 1);
     }
   }
   
-  if (!p.getEffect().equals("none")) {
+  if (p.getEffect() != ("none")) {
     fill(p.getColor());
-    rect(740, 550, map(p.getEffectTimer(), 0, 1200, 0, 180), 10);
+    rect(width-200, 550, map(p.getEffectTimer(), 0, 1200, 0, 180), 10);
   }
   
   if (p.points <= -100) {

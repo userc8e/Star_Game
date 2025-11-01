@@ -20,8 +20,8 @@ class Star extends Body {
 
     interact(p) {
         if (this.touch(p)) {
-        p.setPoints(int(this.points));
-        return true;
+            p.setPoints(int(this.points));
+            return true;
         }
         return false;
     }

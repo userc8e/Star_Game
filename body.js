@@ -6,8 +6,8 @@ class Body {
         this.clr = undefined;
         this.spawnTime = frameCount;
         this.duration = 15;
-        this.vx = int(random(0, maxSpeed));
-        this.vy = int(random(0, maxSpeed));
+        this.vx = random(-maxSpeed, maxSpeed);
+        this.vy = random(-maxSpeed, maxSpeed);
         this.maxSpeed = maxSpeed;
     }
 

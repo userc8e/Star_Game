@@ -11,6 +11,10 @@ class StarColor {
         return color(this.r, this.g, this.b);
     }
 
+    isYellow() {
+        return this.r === 255 && this.g === 255 && this.b === 0;
+    }
+
     getR() {
         return this.r;
     }

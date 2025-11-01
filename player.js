@@ -32,9 +32,9 @@ class Player {
     display() {
         ellipseMode(CORNER);
         if (this.hitAsteroid) {
-        fill(255, 0, 0); // red when hit
+            fill(255, 0, 0); // red when hit
         } else {
-        fill(color(this.r, this.g, this.b)); // normal color
+            fill(color(this.r, this.g, this.b)); // normal color
         }
         //ellipse(this.x, this.y, this.w, this.h);
         ellipse(this.x + 5, this.y, this.s - 10, this.s - 10);
@@ -50,7 +50,8 @@ class Player {
     move() {
         // if the player hits an asteroid - the game pauses temporarily
         if (this.pauseFrames > 0) {
-        this.pauseFrames--;
+            this.pauseFrames--;
+            
         if (this.pauseFrames === 0) {
             this.hitAsteroid = false;
         }
@@ -59,26 +60,26 @@ class Player {
 
         // vertical movements
         if (this.keysPressed.has('w') || this.keysPressedCode.has(UP_ARROW)) {
-        if (this.y - this.h / 2 > 0) {
-            this.y -= 3.75;
-        }
+            if (this.y - this.h / 2 > 0) {
+                this.y -= 3.75 * this.speedMultiplier;
+            }
         }
         if (this.keysPressed.has('s') || this.keysPressedCode.has(DOWN_ARROW)) {
-        if (this.y + this.h / 2 < height) {
-            this.y += 3.75;
-        }
+            if (this.y + this.h / 2 < height) {
+                this.y += 3.75 * this.speedMultiplier;;
+            }
         }
 
         // horizontal movements
         if (this.keysPressed.has('a') || this.keysPressedCode.has(LEFT_ARROW)) {
-        if (this.x > 0) {
-            this.x -= 3.75;
-        }
+            if (this.x > 0) {
+                this.x -= 3.75 * this.speedMultiplier;;
+            }
         }
         if (this.keysPressed.has('d') || this.keysPressedCode.has(RIGHT_ARROW)) {
-        if (this.x < width - this.w) {
-            this.x += 3.75;
-        }
+            if (this.x < width - this.w) {
+                this.x += 3.75 * this.speedMultiplier;;
+            }
         }
     }
 
@@ -89,38 +90,38 @@ class Player {
         this.loseLife();
         }
 
-        absorbColor(c) {
-        this.resetEffect();
-
+    absorbColor(c) {
+        if (!c.isYellow()) {
+            this.resetEffect(); // only reset if not yellow
+            this.currentEffect = c.getEffect();
+            this.applyEffect(this.currentEffect);
+        }
         this.r = c.getR();
         this.g = c.getG();
         this.b = c.getB();
+    }
 
-        this.currentEffect = c.getEffect();
-        this.applyEffect(this.currentEffect);
-        }
-
-        // helper function to absorbColor
-        applyEffect(effectName) {
+    // helper function to absorbColor
+    applyEffect(effectName) {
         switch (effectName) {
             case "speed":
-            this.speedMultiplier *= 3;
-            this.effectTimer = 800;
-            break;
+                this.speedMultiplier *= 2;
+                this.effectTimer = 800;
+                break;
             case "invincibility":
-            this.invincible = true;
-            this.effectTimer = 800;
-            break;
+                this.invincible = true;
+                this.effectTimer = 800;
+                break;
             case "double XP":
-            this.xpMultiplier *= 2;
-            this.effectTimer = 1200;
-            break;
+                this.xpMultiplier *= 2;
+                this.effectTimer = 1200;
+                break;
             case "heal":
-            if (this.lives < 3) {
-                this.lives++;
-            }
-            this.effectTimer = 400;
-            break;
+                if (this.lives < 3) {
+                    this.lives++;
+                }
+                this.effectTimer = 400;
+                break;
         }
     }
 
