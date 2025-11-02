@@ -89,20 +89,13 @@ function mousePressed() {
 function spawnBody() {
   let x = random(width);
   let y = random(height);
-  let r = 100; //radius of asteroids
-  let chance = 0.3; //starting chance of asteroids to spawn
 
-  // after a certain amt points, the stakes increase
-  if (p.getPoints() >= hundred * stakes) {
-    chance *= 1.5;
-    hundred += 100;
-    r += 20; //asteroids will get bigger
-    if (spawnRate > 15) {
-      spawnRate -= 15;
-    }
-    maxSpeed *= 1.3;
-    stakes *= 1.2;
-  }
+  let progress = p.getPoints();
+  let difficultyFactor = 1 + progress / 800; // scales slowly over time
+
+  let chance = 0.3 * difficultyFactor;
+  let r = 100 + progress / 40; // asteroid radius increases gradually
+  let speed = maxSpeed * difficultyFactor;
 
   if (random(1) < chance) {
     bodies.push(new Asteroid(x, y, maxSpeed, r));
