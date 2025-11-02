@@ -46,6 +46,10 @@ function startGame() {
 
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('playButton').addEventListener('click', () => {
+    if (getAudioContext().state !== 'running') {
+      getAudioContext().resume();
+    }
+
     document.getElementById('startScreen').style.display = 'none';
     startGame();
   });
