@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: 'SpaceKids';
-  src: url('assets/Space kids.otf');
+  src: url('.//Space kids.otf');
 }
 
 @font-face {
   font-family: 'SpaceTime';
-  src: url('assets/spacetime-regular.ttf');
+  src: url('./assets/spacetime-regular.ttf');
 }
 
 body {

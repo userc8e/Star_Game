@@ -23,11 +23,11 @@ let endMusic;
 
 //  PRELOAD (for music)
 function preload() {
-  bgMusic = loadSound('assets/saturnSong.mp3');
-  ding = loadSound('assets/dingSound.mp3');
-  dong = loadSound('assets/damageSound.wav');
-  endMusic = loadSound('assets/sadSong.wav');
-  zap = loadSound('assets/zap.wav');
+  bgMusic = loadSound('./assets/saturnSong.mp3');
+  ding = loadSound('./assets/dingSound.mp3');
+  dong = loadSound('./assets/damageSound.wav');
+  endMusic = loadSound('./assets/sadSong.wav');
+  zap = loadSound('./assets/zap.wav');
 }
 
 
