@@ -29,7 +29,8 @@ function preload() {
 
 //  SETUP
 function setup() {
-  createCanvas(windowWidth, 600);
+  let canvas = createCanvas(windowWidth*0.9, windowWidth*0.475);
+  canvas.parent('gameContainer'); // attaches canvas to the div
   bgColor = color(0);
   bgMusic.play();
   bgMusic.loop();

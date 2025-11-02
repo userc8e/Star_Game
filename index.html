@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caitlyn's Star Game</title>
+    <link rel="stylesheet" href="style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.sound.min.js"></script>
 
-    <script src="body.js"></script>
-    <script src="asteroid.js"></script>
-    <script src="player.js"></script>
-    <script src="star.js"></script>
-    <script src="starColor.js"></script>
-    <script src="main.js"></script> <!-- runs the game and should come last -->
+    <script src="js/body.js"></script>
+    <script src="js/asteroid.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/star.js"></script>
+    <script src="js/starColor.js"></script>
+    <script src="js/main.js"></script> <!-- runs the game and should come last -->
 </head>
 <body>
     <h1> Caitlyn's Star Game </h1>
+
+    <div id="gameContainer">
+        <!-- p5.js will insert the canvas here -->
+    </div>
+
+    <div id="gameInfo">
+        <h2> Game Mechanics: </h2>
+        <p> Use WASD or the arrow keys to navigate </p>
+        <p> Avoid the grey asteroids! Losing all 3 hearts or getting less than -100 points will end the game!</p>
+        <p> Gain points by collecting the colorful circles (stars) flying around! </p>
+        <p> The bigger the star, the more points you get! ... But the bigger the asteroid, the more points you lose! </p>
+        <br>
+        <p> Each star color gives off a different effect: </p>
+        <p style="color: rgb(222, 78, 123)"> <b>Red</b> heals one heart if you have less than 3 hearts</p>
+        <p style="color: rgb(218, 255, 125)"> <b>Lime</b> makes each star worth double points</p>
+        <p style="color: rgb(125, 149, 255)"> <b>Blue</b> lets you pass through asteroids without getting hurt</p>
+        <p style="color: rgb(255, 115, 236)"> <b>Pink</b> makes you move 2x faster</p>
+        <p style="color: rgb(255, 228, 94)"> <b>Yellow</b> makes whatever effect you may have last longer</p>
+    </div>
 </body>
 </html>
