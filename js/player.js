@@ -122,6 +122,11 @@ class Player {
                 }
                 this.effectTimer = 400;
                 break;
+            case "basic":
+                if (this.effectTimer > 0) {
+                    this.effectTimer += 300;
+                }
+                break;
         }
     }
 

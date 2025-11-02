@@ -2,7 +2,7 @@ class Star extends Body {
     constructor(x, y, maxSpeed) {
         super(x, y, maxSpeed);
         this.colors = [
-        new StarColor(255, 228, 94, "yellow", "none"),
+        new StarColor(255, 228, 94, "yellow", "basic"),
         new StarColor(255, 115, 236, "pink", "speed"),
         new StarColor(125, 149, 255, "blue", "invincibility"),
         new StarColor(218, 255, 125, "lime", "double XP"),

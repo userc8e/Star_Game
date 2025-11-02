@@ -14,15 +14,34 @@ body {
     background-color: #000;
 }
 
+#playButton {
+  font-size: 24px;
+  padding: 10px 20px;
+  background-color: rgb(255, 115, 236);
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'SpaceTime', sans-serif;
+}
+
+#startScreen {
+  text-align: center;
+  margin-top: 50px;
+}
+
 canvas {
   border: 4px solid white;
   display: block;
   margin: 0 auto;
 }
 
+#gameContainer {
+    display: none; /* hides canvas by default */
+}
+
 #gameContainer canvas {
   border: 4px solid white;
-  display: block;
   margin: 0 auto;
 }
 

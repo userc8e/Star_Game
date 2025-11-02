@@ -4,6 +4,7 @@
 
 
 //  VARIABLES
+let gameStarted = false;
 let bgColor;
 let keysPressed = new Set(); // tracks movement
 let keysPressedCode = new Set();
@@ -17,6 +18,7 @@ let maxSpeed = 2;
 let bgMusic;
 let ding; //sound when u collect a star :D
 let dong; //sound when u hit an asteroid :(
+let zap; //sound when asteroid is destroyed
 let endMusic;
 
 //  PRELOAD (for music)
@@ -25,16 +27,34 @@ function preload() {
   ding = loadSound('assets/dingSound.mp3');
   dong = loadSound('assets/damageSound.wav');
   endMusic = loadSound('assets/sadSong.wav');
+  zap = loadSound('assets/zap.wav');
 }
 
+
 //  SETUP
-function setup() {
-  let canvas = createCanvas(windowWidth*0.9, windowWidth*0.475);
-  canvas.parent('gameContainer'); // attaches canvas to the div
+
+function startGame() {
+  document.getElementById('gameContainer').style.display = 'block';
+  document.getElementById('gameContainer').scrollIntoView({ behavior: 'smooth' });
   bgColor = color(0);
+  bgMusic.setLoop(true);
   bgMusic.play();
-  bgMusic.loop();
   p = new Player(keysPressed, keysPressedCode);
+  gameStarted = true;
+  loop(); //starts draw loop
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('playButton').addEventListener('click', () => {
+    document.getElementById('startScreen').style.display = 'none';
+    startGame();
+  });
+});
+
+function setup() {
+  let canvas = createCanvas(windowWidth * 0.9, windowHeight);
+  canvas.parent('gameContainer');
+  noLoop(); //prevent draw from running until Play is clicked
 }
 
 
@@ -113,6 +133,11 @@ function drawHeart(x, y, alive) {
 //  DRAW
 
 function draw() {
+  // game doesn't start until hit play
+  if (!gameStarted) {
+    return;
+  }
+
   //  GAME OVER?
   if (p.getLives() == 0) {
     background(255, 0, 0, 75);
@@ -133,11 +158,8 @@ function draw() {
   fill(255);
   textSize(25);
   text("Points: " + p.getPoints(), 20, 40);
-  fill(143, 143, 143);
-  textSize(20);
-  text("Move using WASD or Arrow keys!\n\nFly through space to capture\ncolorful stars to gain points\nand special effects!\n\nBut be careful of the grey asteroids!", width/4, height/4);
   fill(p.getColor());
-  text("effect: " + p.getEffect(), width-200, 580);
+  text("effect: " + p.getEffect(), width-200, height-10);
 
   
   //  HEART LIVES
@@ -167,17 +189,20 @@ function draw() {
       if (b instanceof Star) {
         p.absorbColor(b.getColor());
         ding.play();
-      } else {
-        dong.play();
+      } else if (b instanceof Asteroid) {
+        if (p.invincible == true) {
+          zap.play();
+        } else {
+          dong.play();
+        }
       }
-
       bodies.splice(i, 1);
     }
   }
   
   if (p.getEffect() != ("none")) {
     fill(p.getColor());
-    rect(width-200, 550, map(p.getEffectTimer(), 0, 1200, 0, 180), 10);
+    rect(width-200, height-45, map(p.getEffectTimer(), 0, 1200, 0, 180), 10);
   }
   
   if (p.points <= -100) {
