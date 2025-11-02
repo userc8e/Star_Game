@@ -11,7 +11,7 @@ let keysPressedCode = new Set();
 let bodies = []; // the bodies that appear on-screen
 let p;
 let flashTimer = 0;
-let spawnRate = 100;
+let spawnRate = 90;
 let hundred = 100; //counts hundreds in points
 let stakes = 300;
 let maxSpeed = 2;
@@ -186,12 +186,8 @@ function draw() {
       if (b instanceof Star) {
         p.absorbColor(b.getColor());
         ding.play();
-      } else if (b instanceof Asteroid) {
-        if (p.invincible == true) {
-          zap.play();
-        } else {
+      } else {
           dong.play();
-        }
       }
       bodies.splice(i, 1);
     }
